@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,53 +29,40 @@ public class BluetoothConnect extends AppCompatActivity {
     BluetoothAdapter rBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     BluetoothDevice Spider = null;
     BluetoothSocket clientSocket = null;
+    TextView status_find;
+    String find_str = "Found devices:";
+    String nofind_str = "No devices found";
 
     private static final int REQUEST_ENABLE_BT = 1;
     ArrayList<String> rAddress = new ArrayList<String>();
-    private boolean reconect_but_vis = false;
 
-    private  void bluetooth_test() throws InterruptedException {
+    private  void bluetooth_connect() throws InterruptedException {
         if(rBluetoothAdapter == null) {
             Toast.makeText(BluetoothConnect.this, "Bluetooth Adapter = null",
                     Toast.LENGTH_SHORT).show();
             TimeUnit.SECONDS.sleep(5);
-            bluetooth_wait();
+            status_find.setText(nofind_str);
+            bluetooth_reconnect();
         }
         else {
             if(rBluetoothAdapter.isEnabled()) {
+                status_find.setText(find_str);
                 bluetooth_list();
             }
             else {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 
-                TimeUnit.SECONDS.sleep(5);
+                Toast.makeText(BluetoothConnect.this, "Can't connect",
+                        Toast.LENGTH_SHORT).show();
+                status_find.setText(nofind_str);
 
-                if(rBluetoothAdapter.isEnabled()) {
-                    bluetooth_list();
-                }
-                else {
-                    enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-
-                    TimeUnit.SECONDS.sleep(5);
-                    if(rBluetoothAdapter.isEnabled()) {
-                        bluetooth_list();
-                    }
-                    else {
-                        if(!reconect_but_vis) {
-                            reconect_but_vis = true;
-                            Toast.makeText(BluetoothConnect.this, "Can't connect",
-                                    Toast.LENGTH_SHORT).show();
-                            bluetooth_wait();
-                        }
-                    }
-                }
+                bluetooth_reconnect();
             }
         }
     }
 
-    private void bluetooth_connect(String address) {
+    private void bluetooth_connect_to_device(String address) {
         Spider = rBluetoothAdapter.getRemoteDevice(address);
         try {
             Method m = Spider.getClass().getMethod("createRfcommSocket",
@@ -87,26 +75,32 @@ public class BluetoothConnect extends AppCompatActivity {
             Log.d("BLUETOOTH", e.getMessage());
             Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 1",
                     Toast.LENGTH_SHORT).show();
+            return;
         } catch (SecurityException e) {
             Log.d("BLUETOOTH", e.getMessage());
             Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 2",
                     Toast.LENGTH_SHORT).show();
+            return;
         } catch (NoSuchMethodException e) {
             Log.d("BLUETOOTH", e.getMessage());
             Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 3",
                     Toast.LENGTH_SHORT).show();
+            return;
         } catch (IllegalArgumentException e) {
             Log.d("BLUETOOTH", e.getMessage());
             Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 4",
                     Toast.LENGTH_SHORT).show();
+            return;
         } catch (IllegalAccessException e) {
             Log.d("BLUETOOTH", e.getMessage());
             Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 5",
                     Toast.LENGTH_SHORT).show();
+            return;
         } catch (InvocationTargetException e) {
             Log.d("BLUETOOTH", e.getMessage());
             Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 6",
                     Toast.LENGTH_SHORT).show();
+            return;
         }
 
         Toast.makeText(BluetoothConnect.this, "Connect!", Toast.LENGTH_SHORT).show();
@@ -125,15 +119,7 @@ public class BluetoothConnect extends AppCompatActivity {
 
         if(pairedDevices.size() > 0) {
             ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent){
-                    View view = super.getView(position, convertView, parent);
-                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
-                    tv.setTextColor(getResources().getColor(R.color.colorPrimary)); // ListView text color
-                    return view;
-                }
-            };
+                    android.R.layout.simple_list_item_1);
             for (BluetoothDevice device : pairedDevices) {
                 mArrayAdapter.add(device.getName());
                 rAddress.add(device.getAddress());
@@ -145,13 +131,13 @@ public class BluetoothConnect extends AppCompatActivity {
                     String address = rAddress.get(position);
                     Toast.makeText(BluetoothConnect.this, "Try connect to " + address,
                             Toast.LENGTH_SHORT).show();
-                    bluetooth_connect(address);
+                    bluetooth_connect_to_device(address);
                 }
             });
         }
     }
 
-    private void bluetooth_wait() {
+    private void bluetooth_reconnect() {
         Button reconnect_but = (Button) findViewById(R.id.reconnect);
         reconnect_but.setVisibility(View.VISIBLE);
 
@@ -159,7 +145,19 @@ public class BluetoothConnect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    bluetooth_test();
+                    if(rBluetoothAdapter != null) {
+                        if(rBluetoothAdapter.isEnabled()) {
+                            status_find.setText(find_str);
+                            bluetooth_list();
+                        }
+                        else {
+                            bluetooth_connect();
+                        }
+                    }
+                    else {
+                        bluetooth_connect();
+                    }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -171,10 +169,11 @@ public class BluetoothConnect extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
+        status_find = (TextView) findViewById(R.id.status);
 
         try {
-            TimeUnit.SECONDS.sleep(5);
-            bluetooth_test();
+            TimeUnit.SECONDS.sleep(1);
+            bluetooth_connect();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
