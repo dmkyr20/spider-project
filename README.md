@@ -1,2 +1,2 @@
-h1 Robot Hexapod
-Робот на 6 ногах. Создан на основе Ардуино с использованием библиотек и шилдов. Упраление происходит чере андроид приложение  с помощю Блютуз.
+#h1 Robot Hexapod
+Robot Hexapod with 6-ty legs which work on Arduino and control with Bluetoothe in Android app.
