@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainPanel"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageView
+        android:id="@+id/right"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="201dp"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/down"
+        app:layout_constraintTop_toBottomOf="@+id/con"
+        app:srcCompat="@drawable/ic_arrow" />
+
+    <ImageView
+        android:id="@+id/left"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="201dp"
+        android:layout_marginBottom="44dp"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/down"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/con"
+        app:srcCompat="@drawable/ic_arrow" />
+
+    <ImageView
+        android:id="@+id/up"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toTopOf="@+id/down"
+        app:layout_constraintEnd_toStartOf="@+id/right"
+        app:layout_constraintStart_toEndOf="@+id/left"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@drawable/ic_arrow" />
+
+    <ImageView
+        android:id="@+id/down"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="50dp"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/right"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/left"
+        app:srcCompat="@drawable/ic_arrow" />
+
+    <ImageView
+        android:id="@+id/rec"
+        android:layout_width="48dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_refresh" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="298dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:text="Status: Try Conections"
+        android:textColor="@color/colorText"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toStartOf="@+id/rec"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="144dp"
+        android:layout_marginLeft="144dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="144dp"
+        android:text="Console:"
+        android:textColor="@color/colorText"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toTopOf="@+id/con"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status" />
+
+    <TextView
+        android:id="@+id/con"
+        android:layout_width="326dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:text="uuiiug;igu"
+        android:textColor="@color/colorText"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="144dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginRight="120dp"
+        android:text="Controller"
+        android:textColor="@color/colorText"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toTopOf="@+id/up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/con" />
+
+</android.support.constraint.ConstraintLayout>

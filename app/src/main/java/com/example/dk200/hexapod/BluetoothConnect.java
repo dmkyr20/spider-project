@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 public class BluetoothConnect extends AppCompatActivity {
 
     BluetoothAdapter rBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    BluetoothDevice Spider = null;
     BluetoothSocket clientSocket = null;
     TextView status_find;
     String find_str = "Found devices:";
@@ -63,47 +63,9 @@ public class BluetoothConnect extends AppCompatActivity {
     }
 
     private void bluetooth_connect_to_device(String address) {
-        Spider = rBluetoothAdapter.getRemoteDevice(address);
-        try {
-            Method m = Spider.getClass().getMethod("createRfcommSocket",
-                    new Class[] {int.class});
-
-            clientSocket = (BluetoothSocket) m.invoke(Spider, 1);
-            clientSocket.connect();
-
-        }catch (IOException e) {
-            Log.d("BLUETOOTH", e.getMessage());
-            Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 1",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (SecurityException e) {
-            Log.d("BLUETOOTH", e.getMessage());
-            Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 2",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (NoSuchMethodException e) {
-            Log.d("BLUETOOTH", e.getMessage());
-            Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 3",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (IllegalArgumentException e) {
-            Log.d("BLUETOOTH", e.getMessage());
-            Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 4",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (IllegalAccessException e) {
-            Log.d("BLUETOOTH", e.getMessage());
-            Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 5",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (InvocationTargetException e) {
-            Log.d("BLUETOOTH", e.getMessage());
-            Toast.makeText(BluetoothConnect.this, "Bluetooth error in connect 6",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Toast.makeText(BluetoothConnect.this, "Connect!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplication(), MainPanel.class);
+        intent.putExtra("address", address);
+        startActivity(intent);
     }
 
     private void bluetooth_list() {
